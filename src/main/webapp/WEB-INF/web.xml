@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+  <!--中文过滤器-->
+  <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- spring mvc核心：分发servlet -->
+  <!--
+        <servlet> </servlet> 用来申明一个servlet的数据。
+        有以下子元素：
+            <servlet-name></servlet-name> 指定servlet的名称
+            <servlet-class></servlet-class> 指定servlet的类名称
+            <jsp-file></jsp-file> 指定web站台中的某个JSP网页的完整路径
+            <init-param></init-param> 用来定义参数，可有多个init-param。在servlet类中通过getInitParamenter(String name)方法访问初始化参数
+            <load-on-startup></load-on-startup>指定当Web应用启动时，装载Servlet的次序。当值为正数或零时：Servlet容器先加载数值小的servlet，再依次加载其他数值大的servlet。当值为负或未定义：Servlet容器将在Web客户首次访问这个servlet时加载它。
+            <servlet-mapping></servlet-mapping> 用来定义servlet所对应的URL，包含两个子元素
+            <servlet-name></servlet-name> 指定servlet的名称
+            <url-pattern></url-pattern> 指定servlet所对应的URL
+
+
+
+  -->
+  <servlet>
+    <servlet-name>mvc-dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!-- spring mvc的配置文件 -->
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:springMVC.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mvc-dispatcher</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <!--
+          servlet的mapping规则
+              当一个请求发送到servlet容器的时候，容器先会将请求的url减去当前应用上下文的路径作为servlet的映射url，
+              比如我访问的是http://localhost/controller/aaa.html，我的应用上下文是test，容器会将http://localhost/test去掉，
+              剩下的/aaa.html部分拿来做servlet的映射匹配。这个映射匹配过程是有顺序的，
+              而且当有一个servlet匹配成功以后，就不会去理会剩下的servlet了。
+
+          匹配规则：
+              1. 精准匹配
+              2. 最长路径匹配
+              3. 拓展匹配
+  -->
+</web-app>
