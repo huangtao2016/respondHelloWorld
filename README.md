@@ -1,6 +1,4 @@
 # respondHelloWorld
-# respondHelloWorld
-
 a maven project,springmvc webapp structure.
 
 tools : idea 2017 , github , git
